@@ -1363,6 +1363,115 @@ body {
 
   <script>
     const form = document.getElementById("chatForm");
+    
+    const plusButton = document.getElementById("plusButton");
+    const attachMenu = document.getElementById("attachMenu");
+    const fileInput = document.getElementById("fileInput");
+    const filePreview = document.getElementById("filePreview");
+
+    let selectedFiles = [];
+
+    const fileTypes = {
+      image: "image/png,image/jpeg,image/webp",
+      pdf: "application/pdf",
+      document: ".doc,.docx,.txt",
+      spreadsheet: ".csv,.xlsx",
+      presentation: ".pptx",
+      all: "image/png,image/jpeg,image/webp,application/pdf,.doc,.docx,.txt,.csv,.xlsx,.pptx"
+    };
+
+    plusButton.addEventListener("click", function(event) {
+      event.stopPropagation();
+      attachMenu.hidden = !attachMenu.hidden;
+      plusButton.setAttribute("aria-expanded", String(!attachMenu.hidden));
+    });
+
+    attachMenu.addEventListener("click", function(event) {
+      const button = event.target.closest("button[data-filetype]");
+      if (!button) return;
+
+      fileInput.accept = fileTypes[button.dataset.filetype];
+      fileInput.click();
+      attachMenu.hidden = true;
+      plusButton.setAttribute("aria-expanded", "false");
+    });
+
+    document.addEventListener("click", function(event) {
+      if (!attachMenu.contains(event.target) && event.target !== plusButton) {
+        attachMenu.hidden = true;
+        plusButton.setAttribute("aria-expanded", "false");
+      }
+    });
+
+    fileInput.addEventListener("change", function() {
+      const newFiles = Array.from(fileInput.files);
+
+      newFiles.forEach(function(file) {
+        const alreadyAdded = selectedFiles.some(function(existing) {
+          return existing.name === file.name &&
+                 existing.size === file.size &&
+                 existing.lastModified === file.lastModified;
+        });
+
+        if (alreadyAdded) return;
+
+        const allowedTypes = Object.values(fileTypes).join(",");
+        const extension = file.name.split(".").pop().toLowerCase();
+        const allowedExtensions = [
+          "png", "jpg", "jpeg", "webp", "pdf",
+          "doc", "docx", "txt", "csv", "xlsx", "pptx"
+        ];
+
+        if (allowedExtensions.includes(extension)) {
+          selectedFiles.push(file);
+        }
+      });
+
+      renderFilePreview();
+      fileInput.value = "";
+    });
+
+    function renderFilePreview() {
+      filePreview.replaceChildren();
+
+      selectedFiles.forEach(function(file, index) {
+        const chip = document.createElement("div");
+        chip.className = "file-chip";
+
+        if (file.type.startsWith("image/")) {
+          const img = document.createElement("img");
+          img.alt = file.name;
+          img.src = URL.createObjectURL(file);
+          chip.appendChild(img);
+        } else {
+          const icon = document.createElement("span");
+          icon.textContent = file.name.toLowerCase().endsWith(".pdf")
+            ? "📕" : "📄";
+          chip.appendChild(icon);
+        }
+
+        const name = document.createElement("span");
+        name.className = "file-name";
+        name.textContent = file.name;
+        name.title = file.name;
+        chip.appendChild(name);
+
+        const remove = document.createElement("button");
+        remove.type = "button";
+        remove.className = "remove-file";
+        remove.textContent = "×";
+        remove.setAttribute("aria-label", "Remove " + file.name);
+
+        remove.addEventListener("click", function() {
+          selectedFiles.splice(index, 1);
+          renderFilePreview();
+        });
+
+        chip.appendChild(remove);
+        filePreview.appendChild(chip);
+      });
+    }
+
     const promptBox = document.getElementById("prompt");
     const chat = document.getElementById("chat");
     const hero = document.getElementById("hero");
