@@ -527,14 +527,23 @@
        
 
 
-<!-- ===== AI NEURAL ORB : paste this whole block in place of your old orb code ===== -->
-<div class="nx-orb-wrap" aria-label="Animated neural intelligence orb">
+<!-- ===== AI NEURAL ORB + GALAXY CORE : paste this whole block in place of your old orb code ===== -->
+<div class="nx-orb-wrap" aria-label="Animated neural intelligence orb with galaxy core">
   <div class="nx-orb" id="nxOrb">
     <div class="nx-halo"></div>
     <div class="nx-ring nx-ring-1"></div>
     <div class="nx-ring nx-ring-2"></div>
     <div class="nx-ring nx-ring-3"></div>
-    <div class="nx-core"></div>
+
+    <!-- GALAXY CORE -->
+    <div class="nx-core">
+      <div class="nx-neb nx-neb-1"></div>
+      <div class="nx-neb nx-neb-2"></div>
+      <div class="nx-neb nx-neb-3"></div>
+      <canvas id="nxGalaxy"></canvas>
+      <div class="nx-core-vignette"></div>
+    </div>
+
     <div class="nx-glass"></div>
     <canvas id="nxCanvas"></canvas>
   </div>
@@ -554,37 +563,60 @@
   }
   .nx-orb *{box-sizing:border-box}
 
-  /* outer breathing glow */
+  /* outer breathing glow (navy-blue friendly) */
   .nx-halo{
     position:absolute;inset:-18%;border-radius:50%;
     background:
-      radial-gradient(circle at 50% 50%,rgba(99,102,241,.38),transparent 60%),
-      radial-gradient(circle at 70% 30%,rgba(236,72,153,.22),transparent 55%),
+      radial-gradient(circle at 50% 50%,rgba(37,99,235,.40),transparent 60%),
+      radial-gradient(circle at 70% 30%,rgba(124,58,237,.22),transparent 55%),
       radial-gradient(circle at 30% 75%,rgba(34,211,238,.22),transparent 55%);
     filter:blur(30px);
     animation:nxBreathe 5s ease-in-out infinite;
   }
 
-  /* glowing core */
+  /* ================= GALAXY CORE ================= */
   .nx-core{
-    position:absolute;inset:26%;border-radius:50%;
+    position:absolute;inset:25%;border-radius:50%;overflow:hidden;
     background:
-      radial-gradient(circle at 35% 30%,#fff 0%,rgba(255,255,255,.0) 22%),
-      radial-gradient(circle at 50% 50%,#a5b4fc 0%,#6366f1 35%,#7c3aed 60%,#be185d 100%);
+      radial-gradient(circle at 50% 50%,#0b1f5c 0%,#071448 40%,#030a2b 75%,#01040f 100%);
+    border:1px solid rgba(96,165,250,.45);
     box-shadow:
-      0 0 40px 8px rgba(124,58,237,.55),
-      0 0 110px 30px rgba(99,102,241,.35),
-      inset 0 0 40px rgba(255,255,255,.35);
-    animation:nxPulse 3.6s ease-in-out infinite, nxHue 14s linear infinite;
+      0 0 0 2px rgba(30,64,175,.25),
+      0 0 38px 6px rgba(37,99,235,.55),
+      0 0 100px 26px rgba(29,78,216,.32),
+      inset 0 0 40px rgba(59,130,246,.35);
+    animation:nxCoreGlow 4.2s ease-in-out infinite;
+    isolation:isolate;
+  }
+  #nxGalaxy{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:2}
+
+  /* drifting nebula clouds */
+  .nx-neb{position:absolute;border-radius:50%;filter:blur(18px);mix-blend-mode:screen;z-index:1}
+  .nx-neb-1{width:75%;height:75%;left:-15%;top:-10%;
+    background:radial-gradient(circle,rgba(56,189,248,.55),transparent 65%);
+    animation:nxDrift1 14s ease-in-out infinite}
+  .nx-neb-2{width:70%;height:70%;right:-18%;bottom:-12%;
+    background:radial-gradient(circle,rgba(124,58,237,.55),transparent 65%);
+    animation:nxDrift2 17s ease-in-out infinite}
+  .nx-neb-3{width:55%;height:55%;left:30%;top:35%;
+    background:radial-gradient(circle,rgba(236,72,153,.28),transparent 65%);
+    animation:nxDrift3 11s ease-in-out infinite}
+
+  /* soft edge so galaxy feels like it lives inside glass */
+  .nx-core-vignette{
+    position:absolute;inset:0;border-radius:50%;z-index:3;pointer-events:none;
+    background:
+      radial-gradient(circle at 50% 50%,transparent 55%,rgba(2,6,30,.65) 100%),
+      radial-gradient(ellipse 50% 30% at 34% 18%,rgba(255,255,255,.18),transparent 70%);
   }
 
-  /* glass reflection on top of sphere */
+  /* glass reflection on whole sphere */
   .nx-glass{
     position:absolute;inset:6%;border-radius:50%;pointer-events:none;
     background:
-      radial-gradient(ellipse 45% 28% at 36% 22%,rgba(255,255,255,.30),transparent 70%),
-      radial-gradient(circle at 50% 50%,transparent 62%,rgba(165,180,252,.20) 100%);
-    border:1px solid rgba(165,180,252,.18);
+      radial-gradient(ellipse 45% 28% at 36% 22%,rgba(255,255,255,.20),transparent 70%),
+      radial-gradient(circle at 50% 50%,transparent 62%,rgba(96,165,250,.20) 100%);
+    border:1px solid rgba(96,165,250,.18);
   }
 
   /* orbit rings */
@@ -593,7 +625,7 @@
     background:conic-gradient(from 0deg,transparent 0 55%,rgba(34,211,238,.95) 75%,rgba(236,72,153,.95) 92%,transparent 100%);
     -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 2px),#000 calc(100% - 1px));
             mask:radial-gradient(farthest-side,transparent calc(100% - 2px),#000 calc(100% - 1px));
-    filter:drop-shadow(0 0 6px rgba(129,140,248,.9));
+    filter:drop-shadow(0 0 6px rgba(96,165,250,.9));
   }
   .nx-ring-1{animation:nxSpin 9s linear infinite}
   .nx-ring-2{inset:7%;transform:rotateX(68deg);animation:nxSpin2 13s linear infinite;opacity:.9}
@@ -603,14 +635,19 @@
 
   @keyframes nxFloat{0%,100%{translate:0 -8px}50%{translate:0 10px}}
   @keyframes nxBreathe{0%,100%{opacity:.75;scale:.96}50%{opacity:1;scale:1.06}}
-  @keyframes nxPulse{0%,100%{transform:scale(.92)}50%{transform:scale(1.08)}}
-  @keyframes nxHue{from{filter:hue-rotate(0deg)}to{filter:hue-rotate(360deg)}}
+  @keyframes nxCoreGlow{
+    0%,100%{box-shadow:0 0 0 2px rgba(30,64,175,.25),0 0 30px 4px rgba(37,99,235,.45),0 0 80px 18px rgba(29,78,216,.25),inset 0 0 34px rgba(59,130,246,.30)}
+    50%{box-shadow:0 0 0 2px rgba(59,130,246,.35),0 0 50px 10px rgba(59,130,246,.65),0 0 120px 34px rgba(37,99,235,.40),inset 0 0 50px rgba(96,165,250,.45)}
+  }
+  @keyframes nxDrift1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(22%,18%) scale(1.2)}}
+  @keyframes nxDrift2{0%,100%{transform:translate(0,0) scale(1.1)}50%{transform:translate(-24%,-16%) scale(.9)}}
+  @keyframes nxDrift3{0%,100%{transform:translate(0,0) scale(.9)}50%{transform:translate(-14%,20%) scale(1.25)}}
   @keyframes nxSpin{to{transform:rotate(360deg)}}
   @keyframes nxSpin2{to{transform:rotateX(68deg) rotate(360deg)}}
   @keyframes nxSpin3{to{transform:rotateY(70deg) rotate(360deg)}}
 
   @media (prefers-reduced-motion:reduce){
-    .nx-orb,.nx-halo,.nx-core,.nx-ring{animation:none!important}
+    .nx-orb,.nx-halo,.nx-core,.nx-ring,.nx-neb{animation:none!important}
   }
 </style>
 
@@ -618,43 +655,63 @@
 (function(){
   var orb=document.getElementById('nxOrb');
   var cv=document.getElementById('nxCanvas');
-  if(!orb||!cv) return;
-  var ctx=cv.getContext('2d');
-  var S=0, dpr=Math.min(window.devicePixelRatio||1,2);
+  var gv=document.getElementById('nxGalaxy');
+  if(!orb||!cv||!gv) return;
+  var ctx=cv.getContext('2d'), gtx=gv.getContext('2d');
+  var S=0, G=0, dpr=Math.min(window.devicePixelRatio||1,2);
 
   function resize(){
-    var r=orb.getBoundingClientRect();
-    S=r.width;
-    cv.width=S*dpr; cv.height=S*dpr;
-    ctx.setTransform(dpr,0,0,dpr,0,0);
+    var r=orb.getBoundingClientRect(); S=r.width;
+    cv.width=S*dpr; cv.height=S*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+    G=S*.5; /* core is 50% of orb */
+    gv.width=G*dpr; gv.height=G*dpr; gtx.setTransform(dpr,0,0,dpr,0,0);
   }
   resize();
   window.addEventListener('resize',resize);
 
-  /* ---- nodes on a fibonacci sphere ---- */
+  /* =============== NEURAL SPHERE (same as before) =============== */
   var N=64, nodes=[], i;
   var golden=Math.PI*(3-Math.sqrt(5));
   for(i=0;i<N;i++){
     var y=1-(i/(N-1))*2, rr=Math.sqrt(1-y*y), th=golden*i;
     nodes.push({x:Math.cos(th)*rr,y:y,z:Math.sin(th)*rr,hue:190+Math.random()*130,ph:Math.random()*6.28});
   }
-  /* ---- links between close nodes ---- */
   var links=[];
   for(i=0;i<N;i++)for(var j=i+1;j<N;j++){
     var dx=nodes[i].x-nodes[j].x,dy=nodes[i].y-nodes[j].y,dz=nodes[i].z-nodes[j].z;
     if(Math.sqrt(dx*dx+dy*dy+dz*dz)<0.62) links.push([i,j]);
   }
-  /* ---- signals travelling along links ---- */
   var pulses=[];
   function spawn(){
     var l=links[Math.floor(Math.random()*links.length)];
     pulses.push({a:l[0],b:l[1],t:0,sp:.012+Math.random()*.02,hue:180+Math.random()*150});
   }
-  /* ---- floating dust ---- */
   var dust=[];
   for(i=0;i<26;i++) dust.push({a:Math.random()*6.28,r:.62+Math.random()*.38,sp:(Math.random()*.004+.001)*(Math.random()<.5?-1:1),s:Math.random()*1.6+.4,ph:Math.random()*6.28});
 
-  /* ---- mouse tilt ---- */
+  /* =============== GALAXY STARS =============== */
+  var ARMS=3, stars=[], bg=[], shoot=null;
+  for(i=0;i<950;i++){
+    var d=Math.pow(Math.random(),1.5);
+    var arm=i%ARMS;
+    var scatter=(Math.random()-.5)*(.9-d*.45);
+    stars.push({
+      r:d,
+      a:arm*(Math.PI*2/ARMS)+d*4.6+scatter,
+      s:Math.random()*1.25+.25,
+      h:d<.18?(38+Math.random()*14):(195+d*70+Math.random()*30),
+      l:d<.18?(82+Math.random()*12):(62+Math.random()*28),
+      ph:Math.random()*6.28,
+      o:(.35+Math.random()*.65)
+    });
+  }
+  for(i=0;i<260;i++){ /* dense glowing bulge */
+    var g=Math.pow(Math.random(),2.2)*.22;
+    stars.push({r:g,a:Math.random()*6.28,s:Math.random()*1.1+.3,h:40+Math.random()*16,l:84+Math.random()*12,ph:Math.random()*6.28,o:.6+Math.random()*.4});
+  }
+  for(i=0;i<90;i++) bg.push({x:Math.random(),y:Math.random(),s:Math.random()*1.1+.2,ph:Math.random()*6.28,sp:.6+Math.random()*1.8});
+
+  /* mouse tilt */
   var mx=0,my=0,tx=0,ty=0;
   window.addEventListener('mousemove',function(e){
     var r=orb.getBoundingClientRect();
@@ -662,15 +719,91 @@
     ty=(e.clientY-(r.top+r.height/2))/window.innerHeight;
   });
 
-  var rotY=0,rotX=.35,time=0;
+  var rotY=0,rotX=.35,time=0,gRot=0;
   var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  function drawGalaxy(){
+    var c=G/2, R=G*.5;
+    gtx.clearRect(0,0,G,G);
+    gtx.globalCompositeOperation='lighter';
+
+    /* faint background stars (twinkle + slow drift) */
+    for(var b=0;b<bg.length;b++){
+      var s=bg[b], tw=.25+.75*Math.abs(Math.sin(time*s.sp+s.ph));
+      var bx=((s.x+time*.004)%1)*G, by=s.y*G;
+      gtx.fillStyle='rgba(200,220,255,'+(tw*.8)+')';
+      gtx.beginPath(); gtx.arc(bx,by,s.s,0,6.283); gtx.fill();
+    }
+
+    /* galaxy disc: tilted & spinning */
+    gtx.save();
+    gtx.translate(c,c);
+    gtx.rotate(-.42+Math.sin(time*.25)*.06);
+    var tilt=.66;
+
+    /* diffuse disc glow */
+    var dg=gtx.createRadialGradient(0,0,0,0,0,R*.95);
+    dg.addColorStop(0,'rgba(255,236,190,.55)');
+    dg.addColorStop(.12,'rgba(255,200,130,.28)');
+    dg.addColorStop(.35,'rgba(80,140,255,.18)');
+    dg.addColorStop(1,'rgba(30,60,200,0)');
+    gtx.save(); gtx.scale(1,tilt);
+    gtx.fillStyle=dg; gtx.beginPath(); gtx.arc(0,0,R*.95,0,6.283); gtx.fill();
+    gtx.restore();
+
+    for(var k=0;k<stars.length;k++){
+      var st=stars[k];
+      var ang=st.a+gRot/(.35+st.r*1.2);
+      var px=Math.cos(ang)*st.r*R*.92;
+      var py=Math.sin(ang)*st.r*R*.92*tilt;
+      var tw2=.6+.4*Math.sin(time*2+st.ph);
+      var al=st.o*tw2;
+      gtx.fillStyle='hsla('+st.h+',95%,'+st.l+'%,'+al+')';
+      gtx.beginPath(); gtx.arc(px,py,st.s,0,6.283); gtx.fill();
+      if(st.s>1.1){
+        var gl=gtx.createRadialGradient(px,py,0,px,py,st.s*3.5);
+        gl.addColorStop(0,'hsla('+st.h+',100%,80%,'+(al*.45)+')');
+        gl.addColorStop(1,'hsla('+st.h+',100%,70%,0)');
+        gtx.fillStyle=gl; gtx.beginPath(); gtx.arc(px,py,st.s*3.5,0,6.283); gtx.fill();
+      }
+    }
+
+    /* bright galactic centre */
+    var cg=gtx.createRadialGradient(0,0,0,0,0,R*.28);
+    var pul=.85+.15*Math.sin(time*2.4);
+    cg.addColorStop(0,'rgba(255,255,255,'+pul+')');
+    cg.addColorStop(.25,'rgba(255,230,170,'+(.65*pul)+')');
+    cg.addColorStop(.6,'rgba(255,170,90,.18)');
+    cg.addColorStop(1,'rgba(255,140,60,0)');
+    gtx.fillStyle=cg; gtx.beginPath(); gtx.arc(0,0,R*.28,0,6.283); gtx.fill();
+    gtx.restore();
+
+    /* occasional shooting star */
+    if(!reduce && !shoot && Math.random()<.004){
+      shoot={x:Math.random()*G*.6,y:Math.random()*G*.4,vx:2.2+Math.random()*1.5,vy:1.2+Math.random()*1,life:1};
+    }
+    if(shoot){
+      var sx=shoot.x,sy=shoot.y;
+      var sg=gtx.createLinearGradient(sx,sy,sx-shoot.vx*14,sy-shoot.vy*14);
+      sg.addColorStop(0,'rgba(255,255,255,'+shoot.life+')');
+      sg.addColorStop(1,'rgba(120,180,255,0)');
+      gtx.strokeStyle=sg; gtx.lineWidth=1.4;
+      gtx.beginPath(); gtx.moveTo(sx,sy); gtx.lineTo(sx-shoot.vx*14,sy-shoot.vy*14); gtx.stroke();
+      shoot.x+=shoot.vx; shoot.y+=shoot.vy; shoot.life-=.018;
+      if(shoot.life<=0) shoot=null;
+    }
+    gtx.globalCompositeOperation='source-over';
+  }
 
   function frame(){
     time+=.016;
+    gRot+=.0035;
     mx+=(tx-mx)*.06; my+=(ty-my)*.06;
     rotY+=.0045+mx*.01;
     var ax=rotX+my*.6, ay=rotY+mx*1.2;
     orb.style.transform='rotateX('+(-my*14)+'deg) rotateY('+(mx*18)+'deg)';
+
+    drawGalaxy();
 
     ctx.clearRect(0,0,S,S);
     ctx.globalCompositeOperation='lighter';
@@ -683,7 +816,6 @@
       return {x:cx+x*R*persp*1.9, y:cy+y*R*persp*1.9, z:z, p:persp, n:n};
     });
 
-    /* links */
     for(i=0;i<links.length;i++){
       var a=P[links[i][0]],b=P[links[i][1]];
       var d=(a.z+b.z)/2, al=.07+(d+1)*.17;
@@ -694,7 +826,6 @@
       ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y); ctx.stroke();
     }
 
-    /* pulses */
     if(!reduce && Math.random()<.18 && pulses.length<22) spawn();
     for(i=pulses.length-1;i>=0;i--){
       var p=pulses[i]; p.t+=p.sp;
@@ -709,7 +840,6 @@
       ctx.fillStyle=gr; ctx.beginPath(); ctx.arc(px,py,rad,0,6.283); ctx.fill();
     }
 
-    /* nodes */
     for(i=0;i<P.length;i++){
       var q=P[i], tw=.65+.35*Math.sin(time*2.2+q.n.ph);
       var r=(1.6+(q.z+1)*1.5)*tw*(S/380);
@@ -721,13 +851,12 @@
       ctx.beginPath(); ctx.arc(q.x,q.y,r,0,6.283); ctx.fill();
     }
 
-    /* dust / sparks */
     for(i=0;i<dust.length;i++){
-      var d=dust[i]; d.a+=d.sp;
-      var dxp=cx+Math.cos(d.a)*d.r*S*.5, dyp=cy+Math.sin(d.a*1.3)*d.r*S*.42;
-      var o=.3+.7*Math.abs(Math.sin(time*1.5+d.ph));
+      var dd=dust[i]; dd.a+=dd.sp;
+      var dxp=cx+Math.cos(dd.a)*dd.r*S*.5, dyp=cy+Math.sin(dd.a*1.3)*dd.r*S*.42;
+      var o=.3+.7*Math.abs(Math.sin(time*1.5+dd.ph));
       ctx.fillStyle='rgba(199,210,254,'+o*.8+')';
-      ctx.beginPath(); ctx.arc(dxp,dyp,d.s,0,6.283); ctx.fill();
+      ctx.beginPath(); ctx.arc(dxp,dyp,dd.s,0,6.283); ctx.fill();
     }
     ctx.globalCompositeOperation='source-over';
     requestAnimationFrame(frame);
