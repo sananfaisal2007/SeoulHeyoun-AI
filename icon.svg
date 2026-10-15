@@ -1,0 +1,95 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <radialGradient id="space">
+      <stop offset="0" stop-color="#18264a"></stop>
+      <stop offset="1" stop-color="#070b19"></stop>
+    </radialGradient>
+    <radialGradient id="sun">
+      <stop offset="0" stop-color="#fffde7"></stop>
+      <stop offset=".35" stop-color="#ffe49a"></stop>
+      <stop offset=".72" stop-color="#ffad45"></stop>
+      <stop offset="1" stop-color="#ff6b35"></stop>
+    </radialGradient>
+    <linearGradient id="orbit" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#b5a5ff" stop-opacity=".85"></stop>
+      <stop offset="1" stop-color="#58dfff" stop-opacity=".25"></stop>
+    </linearGradient>
+    <radialGradient id="bluePlanet">
+      <stop stop-color="#c6f7ff"></stop>
+      <stop offset=".5" stop-color="#51b9ff"></stop>
+      <stop offset="1" stop-color="#3150a7"></stop>
+    </radialGradient>
+    <radialGradient id="purplePlanet">
+      <stop stop-color="#f0d5ff"></stop>
+      <stop offset=".55" stop-color="#a477ff"></stop>
+      <stop offset="1" stop-color="#5536a4"></stop>
+    </radialGradient>
+    <radialGradient id="goldPlanet">
+      <stop stop-color="#fff0bd"></stop>
+      <stop offset=".6" stop-color="#e4a74c"></stop>
+      <stop offset="1" stop-color="#96502f"></stop>
+    </radialGradient>
+    <filter id="glow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="12"></feGaussianBlur>
+    </filter>
+  </defs>
+
+  <rect width="512" height="512" rx="112" fill="url(#space)"></rect>
+
+  <g fill="#dce8ff">
+    <circle cx="112" cy="124" r="2.5"></circle>
+    <circle cx="386" cy="104" r="2"></circle>
+    <circle cx="420" cy="220" r="2.5"></circle>
+    <circle cx="102" cy="340" r="2"></circle>
+    <circle cx="366" cy="402" r="2.5"></circle>
+    <circle cx="184" cy="78" r="1.5"></circle>
+    <circle cx="72" cy="242" r="1.5"></circle>
+    <circle cx="440" cy="330" r="1.5"></circle>
+    <circle cx="180" cy="426" r="2"></circle>
+    <circle cx="316" cy="76" r="1.5"></circle>
+  </g>
+
+  <circle cx="256" cy="256" r="66" fill="#ffb84a" opacity=".15" filter="url(#glow)"></circle>
+
+  <g fill="none" stroke="url(#orbit)" stroke-width="1.8">
+    <ellipse cx="256" cy="256" rx="182" ry="72" transform="rotate(-28 256 256)"></ellipse>
+    <ellipse cx="256" cy="256" rx="154" ry="112" transform="rotate(36 256 256)"></ellipse>
+    <ellipse cx="256" cy="256" rx="113" ry="163" transform="rotate(-48 256 256)"></ellipse>
+    <ellipse cx="256" cy="256" rx="193" ry="137" transform="rotate(65 256 256)" opacity=".65"></ellipse>
+  </g>
+
+  <circle cx="256" cy="256" r="47" fill="#ffb84a" opacity=".16"></circle>
+  <circle cx="256" cy="256" r="34" fill="url(#sun)"></circle>
+  <circle cx="246" cy="245" r="10" fill="#fffde7" opacity=".65"></circle>
+  <circle cx="256" cy="256" r="42" fill="none" stroke="#ffd98a" stroke-opacity=".45" stroke-width="1.5"></circle>
+
+  <g>
+    <circle cx="104" cy="222" r="15" fill="url(#bluePlanet)"></circle>
+    <path d="M93 217 Q104 211 115 218" fill="none" stroke="#e2fbff" stroke-opacity=".6" stroke-width="2"></path>
+
+    <circle cx="350" cy="157" r="19" fill="url(#purplePlanet)"></circle>
+    <path d="M334 156 Q350 145 367 154" fill="none" stroke="#f4e5ff" stroke-opacity=".55" stroke-width="2"></path>
+
+    <circle cx="377" cy="308" r="13" fill="url(#goldPlanet)"></circle>
+    <circle cx="373" cy="303" r="4" fill="#fff0bd" opacity=".7"></circle>
+
+    <circle cx="203" cy="394" r="17" fill="url(#bluePlanet)"></circle>
+    <path d="M190 389 Q203 382 216 389" fill="none" stroke="#e2fbff" stroke-opacity=".55" stroke-width="2"></path>
+
+    <circle cx="172" cy="141" r="9" fill="#e7f3ff"></circle>
+    <circle cx="175" cy="138" r="3" fill="#ffffff"></circle>
+
+    <circle cx="306" cy="371" r="11" fill="url(#purplePlanet)"></circle>
+    <circle cx="310" cy="367" r="3" fill="#f8eaff"></circle>
+
+    <circle cx="402" cy="196" r="8" fill="#72dcff"></circle>
+  </g>
+
+  <g fill="none" stroke="#c8c4ff" stroke-opacity=".8" stroke-width="2">
+    <ellipse cx="350" cy="157" rx="29" ry="7" transform="rotate(-28 350 157)"></ellipse>
+    <ellipse cx="377" cy="308" rx="22" ry="6" transform="rotate(25 377 308)"></ellipse>
+  </g>
+
+  <circle cx="256" cy="256" r="190" fill="none" stroke="#b3a7ff" stroke-opacity=".14" stroke-width="2"></circle>
+</svg>
