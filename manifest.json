@@ -1,0 +1,12 @@
+
+{
+  "name": "SeoulHeyoun AI",
+  "short_name": "SeoulHeyoun",
+  "description": "Your personal AI workspace",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#090b18",
+  "theme_color": "#090b18"
+}
