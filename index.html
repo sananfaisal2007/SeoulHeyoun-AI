@@ -156,171 +156,190 @@
     .hero { text-align: center; margin: 20px 0 35px; }
     
 
+
 /* SeoulHeyoun AI — Magical Solar System */
 .ai-orb-wrap {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 190px;
+  height: 260px;
   margin: 0 auto 22px;
-  perspective: 700px;
+  overflow: visible;
 }
 
 .ai-orb {
   position: relative;
+  width: 220px;
+  height: 220px;
+  flex-shrink: 0;
+  border-radius: 50%;
   isolation: isolate;
-  width: 132px;
-  height: 132px;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 50% 50%, #ffdb8a 0 3%, transparent 8%),
-    radial-gradient(circle at 50% 50%, #ff9d4d20 0 22%, transparent 48%);
-  filter: drop-shadow(0 0 18px #9d7aff55);
-  animation: orbFloat 6s ease-in-out infinite;
+  animation: universeFloat 6s ease-in-out infinite;
 }
 
-.ai-orb::before,
-.ai-orb::after {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  inset: 17px -18px;
-  border: 1px solid #a99aff9c;
-  border-radius: 50%;
-  transform: rotate(-32deg) scaleY(.48);
-  box-shadow: 0 0 12px #967bff30;
-}
-
-.ai-orb::after {
-  inset: 5px -28px;
-  border-color: #68ddff8a;
-  transform: rotate(48deg) scaleY(.38);
-  animation: orbOrbit 12s linear infinite;
-}
-
+/* Glowing magical sun */
 .ai-orb-core {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 68px;
-  height: 68px;
+  width: 76px;
+  height: 76px;
   transform: translate(-50%, -50%);
   border-radius: 50%;
   background:
-    radial-gradient(circle at 32% 25%, #fffde9 0 4%, #ffe6a0 10%, transparent 29%),
-    radial-gradient(circle at 38% 35%, #fff0b5 0%, #ffb65e 30%, #ff784e 57%, #9d4fff 80%, #31206d 100%);
+    radial-gradient(circle at 30% 25%, #ffffff 0%, #fff4bd 8%, transparent 28%),
+    radial-gradient(circle at 40% 35%, #ffe9a0, #ffad55 35%, #ff6b85 62%, #8b5cff 85%);
   box-shadow:
-    0 0 14px #ffd68b,
-    0 0 32px #ff9a6a9c,
-    0 0 55px #9b70ff70,
-    inset -8px -8px 18px #48216c;
-  animation: sunPulse 3s ease-in-out infinite;
+    0 0 12px #fff4bd,
+    0 0 30px #ffb65c,
+    0 0 60px #ff7bd5,
+    0 0 95px #815cff75;
+  animation: sunMagic 3s ease-in-out infinite;
+  z-index: 5;
+}
+
+/* Three elliptical orbital paths */
+.orb-orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border: 1px solid #a58cff80;
+  border-radius: 50%;
+  transform: translate(-50%, -50%) rotate(-28deg);
+  pointer-events: none;
+}
+
+.orb-orbit-one {
+  width: 130px;
+  height: 78px;
+}
+
+.orb-orbit-two {
+  width: 180px;
+  height: 112px;
+  transform: translate(-50%, -50%) rotate(48deg);
+  border-color: #65dfff9c;
+  box-shadow: 0 0 10px #65dfff20;
+}
+
+.orb-orbit-three {
+  width: 218px;
+  height: 142px;
+  transform: translate(-50%, -50%) rotate(-58deg);
+  border-color: #d29aff80;
+}
+
+/* Each planet follows its own orbit */
+.orb-planet-path {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  z-index: 4;
+  animation: planetRevolve 5s linear infinite;
+}
+
+.orb-planet-path-two {
+  animation-duration: 8s;
+  animation-delay: -2s;
+}
+
+.orb-planet-path-three {
+  animation-duration: 11s;
+  animation-delay: -5s;
 }
 
 .orb-planet {
   position: absolute;
-  z-index: 2;
-  top: 50%;
-  left: 50%;
-  width: 15px;
-  height: 15px;
-  margin: -7px;
+  left: 65px;
+  top: -6px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 25%, #f3ffff, #67e2ff 38%, #4663df 78%);
-  box-shadow: 0 0 12px #67dcffb5;
-  animation: planetOrbit 5s linear infinite;
+  background: radial-gradient(circle at 30% 25%, white, #65e5ff 38%, #4562ff);
+  box-shadow: 0 0 10px #65e5ff, 0 0 20px #65e5ff70;
 }
 
-.orb-planet-two {
+.orb-planet-two .orb-planet {
+  left: 90px;
+  top: -5px;
   width: 10px;
   height: 10px;
-  background: radial-gradient(circle at 30% 25%, #fff4d0, #ffbc68 48%, #e65a9b);
-  box-shadow: 0 0 12px #ff9e9e;
-  animation: planetOrbitTwo 7s linear infinite;
+  background: radial-gradient(circle at 30% 25%, #fff4d0, #ffb35d 50%, #ff5cba);
+  box-shadow: 0 0 12px #ff9bcf;
 }
 
-.orb-planet-three {
+.orb-planet-three .orb-planet {
+  left: 109px;
+  top: -4px;
   width: 8px;
   height: 8px;
-  background: radial-gradient(circle at 30% 25%, #f6eaff, #c19aff 55%, #6845d7);
-  box-shadow: 0 0 10px #b38cff;
-  animation: planetOrbitThree 9s linear infinite;
+  background: radial-gradient(circle at 30% 25%, white, #d3a0ff 50%, #7445ff);
+  box-shadow: 0 0 12px #c69aff;
 }
 
+/* Magical floating stars */
 .orb-spark {
   position: absolute;
-  z-index: 3;
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #e6faff;
-  box-shadow: 0 0 10px 3px #86dfff80;
-  animation: sparkTwinkle 2s ease-in-out infinite alternate;
+  background: white;
+  box-shadow: 0 0 8px 3px #a8eaff80;
+  animation: starTwinkle 1.8s ease-in-out infinite alternate;
+  z-index: 6;
 }
 
 .orb-spark-one {
-  top: 12px;
-  left: 35px;
+  top: 28px;
+  left: 70px;
 }
 
 .orb-spark-two {
-  right: 5px;
-  bottom: 32px;
-  animation-delay: .7s;
+  top: 165px;
+  right: 30px;
+  animation-delay: .6s;
 }
 
 .orb-spark-three {
-  left: 15px;
-  bottom: 24px;
-  animation-delay: 1.2s;
+  bottom: 35px;
+  left: 40px;
+  animation-delay: 1s;
 }
 
-@keyframes orbFloat {
-  0%, 100% { transform: translateY(0) rotate(-3deg); }
-  50% { transform: translateY(-8px) rotate(3deg); }
+@keyframes planetRevolve {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
-@keyframes sunPulse {
+@keyframes sunMagic {
   0%, 100% {
-    box-shadow: 0 0 14px #ffd68b, 0 0 32px #ff9a6a9c, 0 0 55px #9b70ff70;
+    filter: brightness(1);
+    box-shadow: 0 0 12px #fff4bd, 0 0 30px #ffb65c,
+      0 0 60px #ff7bd5, 0 0 95px #815cff75;
   }
   50% {
-    box-shadow: 0 0 22px #fff0b5, 0 0 43px #ff9a6ad0, 0 0 70px #9b70ff9c;
+    filter: brightness(1.3);
+    box-shadow: 0 0 18px white, 0 0 42px #ffca70,
+      0 0 75px #ff7bd5, 0 0 115px #815cffb0;
   }
 }
 
-@keyframes orbOrbit {
-  from { transform: rotate(48deg) scaleY(.38); }
-  to { transform: rotate(408deg) scaleY(.38); }
+@keyframes universeFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
 }
 
-@keyframes planetOrbit {
-  from { transform: rotate(0deg) translateX(57px) rotate(0deg); }
-  to { transform: rotate(360deg) translateX(57px) rotate(-360deg); }
-}
-
-@keyframes planetOrbitTwo {
-  from { transform: rotate(120deg) translateX(47px) rotate(-120deg); }
-  to { transform: rotate(480deg) translateX(47px) rotate(-480deg); }
-}
-
-@keyframes planetOrbitThree {
-  from { transform: rotate(220deg) translateX(65px) rotate(-220deg); }
-  to { transform: rotate(580deg) translateX(65px) rotate(-580deg); }
-}
-
-@keyframes sparkTwinkle {
-  from { opacity: .3; transform: scale(.65); }
-  to { opacity: 1; transform: scale(1.5); }
+@keyframes starTwinkle {
+  from { opacity: .25; transform: scale(.6); }
+  to { opacity: 1; transform: scale(1.6); }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .ai-orb,
-  .ai-orb::after,
   .ai-orb-core,
-  .orb-planet,
-  .orb-planet-two,
-  .orb-planet-three,
+  .orb-planet-path,
   .orb-spark {
     animation: none;
   }
