@@ -1584,22 +1584,51 @@ body {
       return message;
     }
 
-    function sendMessage(text) {
-      const cleanText = text.trim();
-      if (!cleanText) return;
+async function sendMessage(text) {
+  const cleanText = text.trim();
+  if (!cleanText) return;
 
-      hero.style.display = "none";
-      suggestions.style.display = "none";
-      addMessage(cleanText, "user");
+  hero.style.display = "none";
+  suggestions.style.display = "none";
+  addMessage(cleanText, "user");
 
-      addMessage(
-        "Your message has appeared successfully! This is currently the interface preview, so it is not connected to a real AI yet. In our next development steps, we will connect an AI engine so it can generate actual answers.",
-        "assistant"
-      );
+  promptBox.value = "";
+  promptBox.focus();
 
-      promptBox.value = "";
-      promptBox.focus();
+  try {
+    const response = await fetch("http://localhost:11434/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        model: "qwen2.5:0.5b",
+        messages: [
+          {
+            role: "user",
+            content: cleanText
+          }
+        ],
+        stream: false
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error("AI request failed: " + response.status);
     }
+
+    const data = await response.json();
+    addMessage(data.message.content, "assistant");
+
+  } catch (error) {
+    console.error("Ollama connection error:", error);
+
+    addMessage(
+      "I couldn't connect to the local AI. Please make sure Ollama is running on your PC and the browser has permission to access it.",
+      "assistant"
+    );
+  }
+}
 
     form.addEventListener("submit", function(event) {
       event.preventDefault();
