@@ -1217,131 +1217,250 @@ body {
     ctx.globalCompositeOperation = "source-over";
 
 
-    // Lightweight 3D planets with rings
-    function drawPlanet(x, y, radius, time, colors, ring) {
+  
+    // Realistic-looking planets with surface details and lighting
+    function drawPlanet(x, y, radius, time, colors, ring, type = "normal") {
       ctx.save();
 
-      // Planet ring
+      // Draw Saturn's rings behind the planet
       if (ring) {
+        ctx.save();
         ctx.translate(x, y);
         ctx.rotate(-0.28);
 
         ctx.beginPath();
-        ctx.ellipse(0, 0, radius * 1.8, radius * 0.48, 0, 0, Math.PI * 2);
-        ctx.strokeStyle = "rgba(150, 175, 255, 0.55)";
-        ctx.lineWidth = Math.max(1.5, radius * 0.10);
+        ctx.ellipse(0, 0, radius * 2.0, radius * 0.62, 0, 0, Math.PI * 2);
+        ctx.strokeStyle = "rgba(205, 190, 160, 0.20)";
+        ctx.lineWidth = radius * 0.42;
         ctx.stroke();
 
         ctx.beginPath();
-        ctx.ellipse(0, 0, radius * 1.55, radius * 0.34, 0, 0, Math.PI * 2);
-        ctx.strokeStyle = "rgba(190, 125, 255, 0.45)";
-        ctx.lineWidth = Math.max(1, radius * 0.045);
+        ctx.ellipse(0, 0, radius * 1.85, radius * 0.54, 0, 0, Math.PI * 2);
+        ctx.strokeStyle = "rgba(235, 210, 160, 0.75)";
+        ctx.lineWidth = Math.max(1, radius * 0.10);
         ctx.stroke();
 
-        ctx.rotate(0.28);
-        ctx.translate(-x, -y);
+        ctx.beginPath();
+        ctx.ellipse(0, 0, radius * 1.45, radius * 0.40, 0, 0, Math.PI * 2);
+        ctx.strokeStyle = "rgba(110, 85, 65, 0.75)";
+        ctx.lineWidth = Math.max(1, radius * 0.08);
+        ctx.stroke();
+        ctx.restore();
       }
 
-      // Spherical shading creates the 3D effect
-      const sphere = ctx.createRadialGradient(
-        x - radius * 0.35, y - radius * 0.38, radius * 0.05,
-        x, y, radius * 1.2
-      );
-
-      sphere.addColorStop(0, colors[0]);
-      sphere.addColorStop(0.48, colors[1]);
-      sphere.addColorStop(1, colors[2]);
-
+      // Clip every detail inside the planet's circular surface
+      ctx.save();
       ctx.beginPath();
       ctx.arc(x, y, radius, 0, Math.PI * 2);
-      ctx.fillStyle = sphere;
-      ctx.fill();
+      ctx.clip();
 
-      // Subtle atmospheric glow
+      // Base planetary surface
+      const surface = ctx.createLinearGradient(
+        x - radius, y - radius * 0.5,
+        x + radius, y + radius
+      );
+      surface.addColorStop(0, colors[0]);
+      surface.addColorStop(0.48, colors[1]);
+      surface.addColorStop(1, colors[2]);
+
+      ctx.fillStyle = surface;
+      ctx.fillRect(x - radius, y - radius, radius * 2, radius * 2);
+
+      // Jupiter and Saturn: curved atmospheric bands
+      if (type === "jupiter" || type === "saturn") {
+        const bands = type === "jupiter" ? 11 : 7;
+
+        for (let i = 0; i < bands; i++) {
+          const by = y - radius + (i + 0.5) * (2 * radius / bands);
+          const wave = Math.sin(i * 1.7 + time * 0.00015) * radius * 0.08;
+
+          ctx.beginPath();
+          ctx.ellipse(
+            x + wave, by, radius * 1.05,
+            radius * (type === "jupiter" ? 0.10 : 0.13),
+            0, 0, Math.PI * 2
+          );
+          ctx.fillStyle = i % 2 === 0
+            ? "rgba(85, 45, 35, 0.30)"
+            : "rgba(255, 235, 190, 0.24)";
+          ctx.fill();
+        }
+
+        if (type === "jupiter") {
+          // Jupiter's Great Red Spot
+          ctx.beginPath();
+          ctx.ellipse(
+            x + radius * 0.34, y + radius * 0.20,
+            radius * 0.23, radius * 0.12, -0.15, 0, Math.PI * 2
+          );
+          ctx.fillStyle = "rgba(170, 75, 48, 0.78)";
+          ctx.fill();
+        }
+      }
+
+      // Earth: blue oceans and approximate continents
+      if (type === "earth") {
+        const drift = Math.sin(time * 0.00012) * radius * 0.12;
+
+        ctx.fillStyle = "rgba(65, 175, 105, 0.95)";
+        ctx.beginPath();
+        ctx.ellipse(x - radius * 0.25 + drift, y - radius * 0.25,
+          radius * 0.30, radius * 0.18, -0.5, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.ellipse(x + radius * 0.32 - drift, y + radius * 0.15,
+          radius * 0.22, radius * 0.34, 0.45, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.ellipse(x - radius * 0.05, y + radius * 0.48,
+          radius * 0.12, radius * 0.10, 0.3, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Thin cloud streaks
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.48)";
+        ctx.lineWidth = Math.max(0.7, radius * 0.045);
+
+        for (let i = 0; i < 4; i++) {
+          ctx.beginPath();
+          ctx.ellipse(
+            x + Math.sin(i * 2 + time * 0.0001) * radius * 0.12,
+            y - radius * 0.45 + i * radius * 0.28,
+            radius * 0.62, radius * 0.07, -0.2, 0, Math.PI
+          );
+          ctx.stroke();
+        }
+      }
+
+      // Mars: darker regions and small craters
+      if (type === "mars") {
+        for (let i = 0; i < 6; i++) {
+          const angle = i * 2.4;
+          const cx = x + Math.cos(angle) * radius * 0.55;
+          const cy = y + Math.sin(angle) * radius * 0.55;
+          const cr = radius * (0.07 + (i % 3) * 0.025);
+
+          ctx.beginPath();
+          ctx.arc(cx, cy, cr, 0, Math.PI * 2);
+          ctx.fillStyle = "rgba(75, 35, 28, 0.30)";
+          ctx.fill();
+          ctx.strokeStyle = "rgba(255, 190, 135, 0.22)";
+          ctx.lineWidth = Math.max(0.6, radius * 0.025);
+          ctx.stroke();
+        }
+      }
+
+      // Subtle moving cloud bands on blue ice giants
+      if (type === "neptune" || type === "uranus") {
+        for (let i = 0; i < 5; i++) {
+          const by = y - radius * 0.7 + i * radius * 0.34;
+          ctx.beginPath();
+          ctx.ellipse(
+            x + Math.sin(time * 0.00012 + i) * radius * 0.12,
+            by, radius * 0.90, radius * 0.045, 0, 0, Math.PI * 2
+          );
+          ctx.fillStyle = "rgba(220, 245, 255, 0.20)";
+          ctx.fill();
+        }
+      }
+
+      // Natural light: bright side and deep shadow on the opposite side
+      const shade = ctx.createRadialGradient(
+        x - radius * 0.38, y - radius * 0.42, radius * 0.04,
+        x + radius * 0.18, y + radius * 0.12, radius * 1.25
+      );
+      shade.addColorStop(0, "rgba(255, 255, 255, 0.24)");
+      shade.addColorStop(0.45, "rgba(10, 15, 35, 0.02)");
+      shade.addColorStop(0.78, "rgba(5, 8, 25, 0.38)");
+      shade.addColorStop(1, "rgba(0, 0, 12, 0.88)");
+
+      ctx.fillStyle = shade;
+      ctx.fillRect(x - radius, y - radius, radius * 2, radius * 2);
+
+      ctx.restore();
+
+      // Fine atmospheric edge
       ctx.beginPath();
-      ctx.arc(x, y, radius * 1.12, 0, Math.PI * 2);
-      ctx.strokeStyle = "rgba(130, 170, 255, 0.16)";
-      ctx.lineWidth = 2;
+      ctx.arc(x, y, radius * 0.99, 0, Math.PI * 2);
+      ctx.strokeStyle = "rgba(175, 210, 255, 0.30)";
+      ctx.lineWidth = Math.max(0.7, radius * 0.025);
       ctx.stroke();
+
+      // Draw the front edge of Saturn's rings for depth
+      if (ring) {
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(-0.28);
+        ctx.beginPath();
+        ctx.ellipse(0, 0, radius * 1.85, radius * 0.54, 0, 0.05, Math.PI - 0.05);
+        ctx.strokeStyle = "rgba(245, 220, 175, 0.85)";
+        ctx.lineWidth = Math.max(1, radius * 0.09);
+        ctx.stroke();
+        ctx.restore();
+      }
 
       ctx.restore();
     }
 
     const planetSize = Math.min(w, h);
 
-   
-    // Multiple colourful planets with gentle orbital motion
-  
-
-    // Jupiter — largest, cream and brown
+    // Jupiter
     drawPlanet(
       w * 0.15 + Math.cos(time * 0.00012) * 7,
       h * 0.35 + Math.sin(time * 0.00012) * 5,
-      planetSize * 0.050,
-      time,
-      ["#fff0c8", "#c58b61", "#593b35"],
-      false
+      planetSize * 0.050, time,
+      ["#fff0c8", "#c58b61", "#593b35"], false, "jupiter"
     );
 
-    // Saturn — golden planet with rings
+    // Saturn
     drawPlanet(
       w * 0.82 + Math.cos(time * 0.00016) * 6,
       h * 0.27 + Math.sin(time * 0.00016) * 4,
-      planetSize * 0.036,
-      time,
-      ["#fff0b4", "#c9a45e", "#6b4d36"],
-      true
+      planetSize * 0.036, time,
+      ["#fff0b4", "#c9a45e", "#6b4d36"], true, "saturn"
     );
 
-    // Earth — blue oceans
+    // Earth
     drawPlanet(
       w * 0.84 + Math.cos(time * 0.00019) * 5,
       h * 0.72 + Math.sin(time * 0.00019) * 4,
-      planetSize * 0.025,
-      time,
-      ["#c4f4ff", "#277bbd", "#10254f"],
-      false
+      planetSize * 0.025, time,
+      ["#c4f4ff", "#277bbd", "#10254f"], false, "earth"
     );
 
-    // Neptune — deep blue
+    // Neptune
     drawPlanet(
       w * 0.30 + Math.cos(time * 0.00015) * 4,
       h * 0.16 + Math.sin(time * 0.00015) * 4,
-      planetSize * 0.023,
-      time,
-      ["#a6dcff", "#346bd5", "#17245d"],
-      false
+      planetSize * 0.023, time,
+      ["#a6dcff", "#346bd5", "#17245d"], false, "neptune"
     );
 
-    // Uranus — icy cyan
+    // Uranus
     drawPlanet(
       w * 0.66 + Math.cos(time * 0.00013) * 4,
       h * 0.84 + Math.sin(time * 0.00013) * 3,
-      planetSize * 0.021,
-      time,
-      ["#d3ffff", "#70cbd5", "#24566e"],
-      false
+      planetSize * 0.021, time,
+      ["#d3ffff", "#70cbd5", "#24566e"], false, "uranus"
     );
 
-    // Mars — rusty red
+    // Mars
     drawPlanet(
       w * 0.12 + Math.cos(time * 0.00018) * 3,
       h * 0.76 + Math.sin(time * 0.00018) * 3,
-      planetSize * 0.015,
-      time,
-      ["#ffd0a1", "#c45d3b", "#572b2c"],
-      false
+      planetSize * 0.015, time,
+      ["#ffd0a1", "#c45d3b", "#572b2c"], false, "mars"
     );
 
-    // Venus — warm golden-white
+    // Venus
     drawPlanet(
       w * 0.40 + Math.cos(time * 0.00014) * 3,
       h * 0.88 + Math.sin(time * 0.00014) * 3,
-      planetSize * 0.018,
-      time,
-      ["#fff2cf", "#d8a66c", "#75513d"],
-      false
+      planetSize * 0.018, time,
+      ["#fff2cf", "#d8a66c", "#75513d"], false, "venus"
     );
+
 
 
     
