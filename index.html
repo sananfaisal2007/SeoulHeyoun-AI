@@ -1033,6 +1033,23 @@ body {
   if (!ctx) return;
 
   let w = 0, h = 0, stars = [];
+  
+  let dust = [];
+  let dustTime = 0;
+
+  function createDust() {
+    const count = Math.min(45, Math.max(18, Math.floor((w * h) / 35000)));
+
+    dust = Array.from({ length: count }, () => ({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      size: 0.4 + Math.random() * 1.1,
+      speed: 0.08 + Math.random() * 0.22,
+      phase: Math.random() * Math.PI * 2,
+      color: Math.random() > 0.5 ? "155, 135, 255" : "105, 205, 255"
+    }));
+  }
+
   let animationId;
   let lastFrame = 0;
   let pointer = { x: -1000, y: -1000, active: false };
