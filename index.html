@@ -1220,6 +1220,31 @@ body {
     const t = reduceMotion ? 0 : time * 0.001;
 
   
+    // Slow flowing cosmic light waves
+    if (!reduceMotion) {
+      const waveTime = time * 0.00012;
+
+      for (let i = 0; i < 2; i++) {
+        const waveY =
+          h * (0.35 + i * 0.3) +
+          Math.sin(waveTime + i * 2) * h * 0.035;
+
+        const wave = ctx.createLinearGradient(
+          0, waveY - 90,
+          w, waveY + 90
+        );
+
+        wave.addColorStop(0, "rgba(85, 80, 210, 0)");
+        wave.addColorStop(0.35, "rgba(100, 110, 255, 0.025)");
+        wave.addColorStop(0.65, "rgba(135, 90, 230, 0.045)");
+        wave.addColorStop(1, "rgba(85, 80, 210, 0)");
+
+        ctx.fillStyle = wave;
+        ctx.fillRect(0, waveY - 90, w, 180);
+      }
+    }
+
+   
     // Floating cosmic dust
     if (!reduceMotion) dustTime = time * 0.001;
 
