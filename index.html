@@ -1270,9 +1270,11 @@ body {
         if (p.y < -2) p.y = h + 2;
       }
 
+     
       const shimmer = reduceMotion
         ? 0.35
-        0.55 + (Math.sin(dustTime * 1.2 + p.phase) + 1) * 0.20;
+        : 0.55 + (Math.sin(dustTime * 1.2 + p.phase) + 1) * 0.20;
+
 
       ctx.beginPath();
       ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
