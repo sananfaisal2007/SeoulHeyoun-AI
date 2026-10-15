@@ -1164,21 +1164,58 @@ body {
     }
  
    
-    // Soft Milky Way band
+    
+    // Brighter colourful Milky Way galaxy band
     ctx.save();
+    ctx.globalCompositeOperation = "screen";
     ctx.translate(w * 0.5, h * 0.5);
     ctx.rotate(-0.32);
 
-    const milkyWay = ctx.createLinearGradient(0, -h * 0.24, 0, h * 0.24);
-    milkyWay.addColorStop(0, "rgba(80, 100, 220, 0)");
-    milkyWay.addColorStop(0.35, "rgba(100, 95, 220, 0.035)");
-    milkyWay.addColorStop(0.5, "rgba(180, 145, 255, 0.075)");
-    milkyWay.addColorStop(0.65, "rgba(70, 155, 230, 0.035)");
-    milkyWay.addColorStop(1, "rgba(80, 100, 220, 0)");
+    // Wide blue-purple outer glow
+    let galaxyGlow = ctx.createLinearGradient(0, -h * 0.38, 0, h * 0.38);
+    galaxyGlow.addColorStop(0, "rgba(70, 90, 220, 0)");
+    galaxyGlow.addColorStop(0.22, "rgba(80, 100, 255, 0.10)");
+    galaxyGlow.addColorStop(0.40, "rgba(150, 90, 255, 0.22)");
+    galaxyGlow.addColorStop(0.50, "rgba(210, 150, 255, 0.30)");
+    galaxyGlow.addColorStop(0.60, "rgba(100, 130, 255, 0.20)");
+    galaxyGlow.addColorStop(0.78, "rgba(70, 100, 220, 0.09)");
+    galaxyGlow.addColorStop(1, "rgba(70, 90, 220, 0)");
 
-    ctx.fillStyle = milkyWay;
-    ctx.fillRect(-w, -h * 0.24, w * 2, h * 0.48);
+    ctx.fillStyle = galaxyGlow;
+    ctx.fillRect(-w, -h * 0.38, w * 2, h * 0.76);
+
+    // Pink and cyan nebula clouds
+    const nebulaColors = [
+      ["rgba(255, 75, 190, 0.13)", -h * 0.10],
+      ["rgba(80, 130, 255, 0.17)", h * 0.04],
+      ["rgba(170, 90, 255, 0.16)", h * 0.13]
+    ];
+
+    nebulaColors.forEach(([color, y]) => {
+      const cloud = ctx.createRadialGradient(
+        0, y, 2, 0, y, Math.min(w, h) * 0.42
+      );
+      cloud.addColorStop(0, color);
+      cloud.addColorStop(1, "rgba(0, 0, 0, 0)");
+
+      ctx.fillStyle = cloud;
+      ctx.fillRect(-w, y - h * 0.42, w * 2, h * 0.84);
+    });
+
+    // Bright, misty galaxy core
+    const core = ctx.createLinearGradient(0, -h * 0.12, 0, h * 0.12);
+    core.addColorStop(0, "rgba(180, 150, 255, 0)");
+    core.addColorStop(0.35, "rgba(170, 160, 255, 0.12)");
+    core.addColorStop(0.5, "rgba(230, 210, 255, 0.24)");
+    core.addColorStop(0.65, "rgba(120, 180, 255, 0.12)");
+    core.addColorStop(1, "rgba(180, 150, 255, 0)");
+
+    ctx.fillStyle = core;
+    ctx.fillRect(-w, -h * 0.12, w * 2, h * 0.24);
+
     ctx.restore();
+    ctx.globalCompositeOperation = "source-over";
+
 
     // Lightweight 3D planets with rings
     function drawPlanet(x, y, radius, time, colors, ring) {
