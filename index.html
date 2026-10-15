@@ -1165,15 +1165,72 @@ body {
         <div class="chat" id="chat" aria-live="polite"></div>
       </section>
 
-      <section class="composer">
-        <form class="input-wrap" id="chatForm">
-          <textarea id="prompt" rows="1" placeholder="Message SeoulHeyoun AI..." aria-label="Your message"></textarea>
-          <button class="send" type="submit" aria-label="Send message">↑</button>
-        </form>
-        <p class="disclaimer">
-          Preview version · Real AI connection will be added in a later step.
-        </p>
-      </section>
+     <section class="composer">
+  <div class="file-preview" id="filePreview"></div>
+
+  <form class="input-wrap" id="chatForm">
+    <button
+      class="plus-button"
+      type="button"
+      id="plusButton"
+      aria-label="Attach files"
+      aria-expanded="false"
+    >＋</button>
+
+    <textarea
+      id="prompt"
+      rows="1"
+      placeholder="Message SeoulHeyoun AI..."
+      aria-label="Your message"
+    ></textarea>
+
+    <button class="send" type="submit" aria-label="Send message">↑</button>
+  </form>
+
+  <div class="attach-menu" id="attachMenu" hidden>
+    <button type="button" data-filetype="image">
+      <span>🖼️</span>
+      <span>Images <small>PNG, JPG, WEBP</small></span>
+    </button>
+
+    <button type="button" data-filetype="pdf">
+      <span>📕</span>
+      <span>PDF files <small>PDF documents</small></span>
+    </button>
+
+    <button type="button" data-filetype="document">
+      <span>📄</span>
+      <span>Documents <small>DOC, DOCX, TXT</small></span>
+    </button>
+
+    <button type="button" data-filetype="spreadsheet">
+      <span>📊</span>
+      <span>Spreadsheets <small>CSV, XLSX</small></span>
+    </button>
+
+    <button type="button" data-filetype="presentation">
+      <span>📽️</span>
+      <span>Presentations <small>PPTX</small></span>
+    </button>
+
+    <button type="button" data-filetype="all">
+      <span>📁</span>
+      <span>Choose any file <small>Select multiple files</small></span>
+    </button>
+  </div>
+
+  <input
+    type="file"
+    id="fileInput"
+    multiple
+    accept="image/png,image/jpeg,image/webp,application/pdf,.doc,.docx,.txt,.csv,.xlsx,.pptx"
+    hidden
+  >
+
+  <p class="disclaimer">
+    Preview version · Real AI connection will be added in a later step.
+  </p>
+</section>
     </main>
   </div>
 
