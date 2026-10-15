@@ -154,6 +154,81 @@
     }
 
     .hero { text-align: center; margin: 20px 0 35px; }
+    
+/* SeoulHeyoun AI — Animated Orb */
+.ai-orb-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 28px;
+  height: 150px;
+}
+
+.ai-orb {
+  position: relative;
+  width: 112px;
+  height: 112px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 28%, #ffffff 0%, #b8eaff 5%, transparent 22%),
+    radial-gradient(circle at 35% 30%, #8de7ff 0%, #638dff 25%, #9162ff 52%, #171536 78%);
+  box-shadow:
+    0 0 22px #8c75ff80,
+    0 0 55px #6edbff35,
+    inset -12px -14px 28px #080b20,
+    inset 7px 7px 20px #ffffff30;
+  animation: orbFloat 5s ease-in-out infinite;
+}
+
+.ai-orb::before,
+.ai-orb::after {
+  content: "";
+  position: absolute;
+  inset: -13px;
+  border: 1px solid #9b8aff65;
+  border-radius: 50%;
+  transform: rotate(-25deg) scaleY(.42);
+}
+
+.ai-orb::after {
+  inset: -23px;
+  border-color: #63dcff50;
+  transform: rotate(35deg) scaleY(.48);
+  animation: orbOrbit 12s linear infinite;
+}
+
+.ai-orb-core {
+  position: absolute;
+  inset: 27px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ffffff, #b4eaff 25%, #8d79ff 70%, #4e42a8);
+  box-shadow: 0 0 22px #a5eaff90;
+  animation: orbPulse 3s ease-in-out infinite;
+}
+
+@keyframes orbFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-9px); }
+}
+
+@keyframes orbPulse {
+  0%, 100% { transform: scale(.94); opacity: .85; }
+  50% { transform: scale(1.06); opacity: 1; }
+}
+
+@keyframes orbOrbit {
+  from { transform: rotate(35deg) scaleY(.48); }
+  to { transform: rotate(395deg) scaleY(.48); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ai-orb,
+  .ai-orb::after,
+  .ai-orb-core {
+    animation: none;
+  }
+}
+
 
     .eyebrow {
       color: var(--cyan);
