@@ -446,16 +446,37 @@
 
     #prompt::placeholder { color: #8288a7; }
 
-    .send {
-      align-self: flex-end;
-      min-width: 45px;
-      height: 43px;
-      border: 0;
-      border-radius: 12px;
-      color: white;
-      font-size: 19px;
-      background: linear-gradient(135deg, #9d7aff, #6374ff);
-    }
+    
+.input-wrap .send {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 44px;
+  width: 44px;
+  min-width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid rgba(210, 190, 255, 0.35);
+  border-radius: 50%;
+  background: linear-gradient(135deg, #a855f7, #6d5dfc);
+  color: #ffffff;
+  font-size: 25px;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 0 18px rgba(139, 92, 246, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.input-wrap .send:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(168, 85, 247, 0.55);
+}
+
+.input-wrap .send:active {
+  transform: scale(0.94);
+}
+
 
     .send:hover { filter: brightness(1.12); }
 
