@@ -1219,6 +1219,28 @@ body {
 
     const t = reduceMotion ? 0 : time * 0.001;
 
+  
+    // Floating cosmic dust
+    if (!reduceMotion) dustTime = time * 0.001;
+
+    for (const p of dust) {
+      if (!reduceMotion) {
+        p.y -= p.speed * 0.25;
+        p.x += Math.sin(dustTime + p.phase) * 0.08;
+
+        if (p.y < -2) p.y = h + 2;
+      }
+
+      const shimmer = reduceMotion
+        ? 0.35
+        : 0.25 + (Math.sin(dustTime * 1.2 + p.phase) + 1) * 0.22;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${p.color}, ${shimmer})`;
+      ctx.fill();
+    }
+
     // Stars with independent twinkle and slow drift
     for (const s of stars) {
       if (!reduceMotion) {
