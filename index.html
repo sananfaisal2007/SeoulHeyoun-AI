@@ -1126,6 +1126,7 @@ body {
       return;
     }
     lastFrame = time;
+        ctx.clearRect(0, 0, w, h);
 
   
     // Slowly drifting cosmic nebula clouds
@@ -1162,7 +1163,7 @@ body {
       ctx.fillRect(0, 0, w, h);
     }
  
-    ctx.clearRect(0, 0, w, h);
+   
     
     // Shooting stars
     if (typeof window.spaceShooters === "undefined") {
