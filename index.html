@@ -35,11 +35,12 @@
     button, input, textarea { font: inherit; }
     button { cursor: pointer; }
 
-    .app {
-      display: grid;
-      grid-template-columns: 250px 1fr;
-      min-height: 100vh;
-    }
+   
+.app {
+  display: block;
+  min-height: 100vh;
+}
+
 
     aside {
       padding: 24px 16px;
@@ -513,6 +514,239 @@ body {
   }
 }
 
+ 
+/* ===== MAGICAL COSMIC TOP NAVIGATION ===== */
+.top-nav {
+  position: sticky;
+  top: 12px;
+  z-index: 1000;
+  width: calc(100% - 32px);
+  max-width: 1500px;
+  min-height: 82px;
+  margin: 12px auto 0;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  flex-wrap: wrap;
+
+  background: rgba(9, 11, 30, 0.78);
+  border: 1px solid rgba(154, 120, 255, 0.32);
+  border-radius: 22px;
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+
+  box-shadow:
+    0 8px 35px rgba(0, 0, 0, 0.25),
+    0 0 22px rgba(120, 80, 255, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+
+  transition: border-color .35s ease, box-shadow .35s ease;
+}
+
+.top-nav:hover {
+  border-color: rgba(99, 220, 255, 0.48);
+  box-shadow:
+    0 8px 38px rgba(0, 0, 0, 0.28),
+    0 0 28px rgba(154, 120, 255, 0.18),
+    0 0 55px rgba(99, 220, 255, 0.07);
+}
+
+.top-nav .brand {
+  flex-shrink: 0;
+  gap: 11px;
+}
+
+.top-nav .logo {
+  width: 46px;
+  height: 46px;
+  border: 1px solid rgba(255, 255, 255, .24);
+  background: linear-gradient(135deg, #b18aff, #6366ff 55%, #43dfff);
+  color: white;
+  box-shadow:
+    0 0 15px rgba(154, 120, 255, .5),
+    0 0 30px rgba(99, 220, 255, .15);
+  animation: cosmicLogoGlow 3s ease-in-out infinite;
+}
+
+.brand-name {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -.5px;
+  white-space: nowrap;
+  background: linear-gradient(100deg, #fff, #c9b7ff, #72e6ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.brand-name span {
+  color: #8deaff;
+  -webkit-text-fill-color: #8deaff;
+  text-shadow: 0 0 15px rgba(99, 220, 255, .38);
+}
+
+.top-nav .subbrand {
+  font-size: 9px;
+  letter-spacing: 1.7px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.nav-item {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 12px 13px;
+
+  color: #b9bfdc;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 13px;
+
+  font-size: 13px;
+  white-space: nowrap;
+  transition:
+    color .3s ease,
+    background .3s ease,
+    border-color .3s ease,
+    box-shadow .3s ease,
+    transform .3s ease;
+}
+
+.nav-item::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -90%;
+  width: 45%;
+  height: 200%;
+  transform: rotate(22deg);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, .25),
+    transparent
+  );
+  transition: left .55s ease;
+  pointer-events: none;
+}
+
+.nav-item:hover::before,
+.nav-item:focus-visible::before {
+  left: 140%;
+}
+
+.nav-item:hover,
+.nav-item:focus-visible {
+  color: #fff;
+  background: linear-gradient(
+    135deg,
+    rgba(154, 120, 255, .20),
+    rgba(99, 220, 255, .10)
+  );
+  border-color: rgba(154, 120, 255, .48);
+  box-shadow:
+    0 0 12px rgba(154, 120, 255, .20),
+    inset 0 0 12px rgba(99, 220, 255, .05);
+  transform: translateY(-2px);
+  outline: none;
+}
+
+.nav-item.active {
+  color: #fff;
+  background: linear-gradient(
+    135deg,
+    rgba(154, 120, 255, .25),
+    rgba(99, 220, 255, .12)
+  );
+  border-color: rgba(154, 120, 255, .40);
+  box-shadow: 0 0 16px rgba(154, 120, 255, .12);
+}
+
+.nav-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #b8f8e0;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.status-light {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #67f5ba;
+  box-shadow: 0 0 10px #67f5ba;
+  animation: statusPulse 2s ease-in-out infinite;
+}
+
+@keyframes cosmicLogoGlow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(154, 120, 255, .4);
+  }
+  50% {
+    box-shadow:
+      0 0 24px rgba(154, 120, 255, .65),
+      0 0 34px rgba(99, 220, 255, .24);
+  }
+}
+
+@keyframes statusPulse {
+  0%, 100% { opacity: .7; transform: scale(.9); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+@media (max-width: 900px) {
+  .top-nav {
+    justify-content: center;
+  }
+
+  .top-nav .brand {
+    margin-right: auto;
+  }
+
+  .nav-status {
+    display: none;
+  }
+
+  .nav-links {
+    width: 100%;
+  }
+}
+
+@media (max-width: 520px) {
+  .top-nav {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .nav-links {
+    justify-content: flex-start;
+    gap: 4px;
+  }
+
+  .nav-item {
+    padding: 10px;
+    font-size: 12px;
+  }
+
+  .brand-name {
+    font-size: 15px;
+  }
+}
+
   </style>
 </head>
 
@@ -548,10 +782,7 @@ body {
 
 
     <main>
-      <header>
-        <h2>✦ SeoulHeyoun AI</h2>
-        <div class="status"><span class="dot"></span> Interface preview</div>
-      </header>
+      
 
       <section class="content">
        
