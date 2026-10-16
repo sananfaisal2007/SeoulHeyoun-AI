@@ -973,6 +973,45 @@ body {
   text-align: center;
 }
 
+
+/* Floating Download App button */
+.download-app-button {
+  position: fixed;
+  right: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 15px;
+  border: 1px solid rgba(210, 190, 255, 0.45);
+  border-radius: 999px;
+  background: linear-gradient(135deg, #a855f7, #6d5dfc);
+  color: #fff;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 0 18px rgba(139, 92, 246, 0.4);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.download-app-button:hover {
+  transform: translateY(-50%) translateX(-3px);
+  box-shadow: 0 0 26px rgba(168, 85, 247, 0.6);
+}
+
+@media (max-width: 600px) {
+  .download-app-button {
+    top: auto;
+    bottom: 110px;
+    right: 12px;
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+}
+
   </style>
 </head>
 
@@ -981,6 +1020,11 @@ body {
 <canvas id="spaceCanvas" aria-hidden="true"></canvas>
 
   <div class="app">
+    <!-- Floating Download App button -->
+<button id="downloadAppButton" class="download-app-button" type="button">
+  <span aria-hidden="true">↓</span>
+  <span>Download App</span>
+</button>
     
     <!-- Magical top navigation -->
     <div class="top-nav">
@@ -1659,6 +1703,36 @@ async function sendMessage(text) {
     document.getElementById("homeButton").addEventListener("click", function() {
       document.getElementById("newChat").click();
     });
+ 
+let deferredInstallPrompt = null;
+
+const downloadAppButton = document.getElementById("downloadAppButton");
+
+window.addEventListener("beforeinstallprompt", (event) => {
+  event.preventDefault();
+  deferredInstallPrompt = event;
+});
+
+downloadAppButton.addEventListener("click", async () => {
+  if (deferredInstallPrompt) {
+    await deferredInstallPrompt.prompt();
+    deferredInstallPrompt = null;
+  } else if (
+    window.matchMedia("(display-mode: standalone)").matches ||
+    window.navigator.standalone === true
+  ) {
+    alert("SeoulHeyoun AI is already installed!");
+  } else {
+    alert(
+      "Install SeoulHeyoun AI from your browser menu. On iPhone: tap Share, then Add to Home Screen."
+    );
+  }
+});
+
+window.addEventListener("appinstalled", () => {
+  deferredInstallPrompt = null;
+});
+
   </script>
 
 <script>
