@@ -974,32 +974,53 @@ body {
 }
 
 
-/* Floating Download App button */
+
 .download-app-button {
   position: fixed;
   right: 22px;
-  top: 50%;
+  top: 40%;
   transform: translateY(-50%);
   z-index: 2000;
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 11px 15px;
-  border: 1px solid rgba(210, 190, 255, 0.45);
+  justify-content: center;
+  padding: 12px 19px;
+  border: 1px solid rgba(220, 190, 255, 0.8);
   border-radius: 999px;
-  background: linear-gradient(135deg, #a855f7, #6d5dfc);
+  background: linear-gradient(120deg, #a855f7, #7c3aed, #6366f1, #a855f7);
+  background-size: 250% 250%;
   color: #fff;
   font: inherit;
   font-size: 13px;
-  font-weight: 600;
-  box-shadow: 0 0 18px rgba(139, 92, 246, 0.4);
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  box-shadow:
+    0 0 8px rgba(192, 132, 252, 0.9),
+    0 0 20px rgba(139, 92, 246, 0.7),
+    0 0 38px rgba(99, 102, 241, 0.35),
+    inset 0 0 8px rgba(255, 255, 255, 0.15);
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  animation: magicalDownloadGlow 3s ease-in-out infinite;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .download-app-button:hover {
-  transform: translateY(-50%) translateX(-3px);
-  box-shadow: 0 0 26px rgba(168, 85, 247, 0.6);
+  transform: translateY(-50%) scale(1.06);
+  box-shadow:
+    0 0 12px rgba(216, 180, 254, 1),
+    0 0 28px rgba(168, 85, 247, 0.9),
+    0 0 48px rgba(99, 102, 241, 0.6);
+}
+
+@keyframes magicalDownloadGlow {
+  0%, 100% {
+    background-position: 0% 50%;
+    filter: brightness(1);
+  }
+  50% {
+    background-position: 100% 50%;
+    filter: brightness(1.2);
+  }
 }
 
 @media (max-width: 600px) {
@@ -1007,10 +1028,11 @@ body {
     top: auto;
     bottom: 110px;
     right: 12px;
-    padding: 10px 12px;
+    padding: 10px 14px;
     font-size: 12px;
   }
 }
+
 
   </style>
 </head>
@@ -1022,7 +1044,6 @@ body {
   <div class="app">
     <!-- Floating Download App button -->
 <button id="downloadAppButton" class="download-app-button" type="button">
-  <span aria-hidden="true">↓</span>
   <span>Download App</span>
 </button>
     
