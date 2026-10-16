@@ -1622,17 +1622,16 @@ body {
 
     function addMessage(text, type) {
       
-requestAnimationFrame(() => {
+      const message = document.createElement("div");
+      message.className = "message " + type;
+      message.textContent = text;
+      chat.appendChild(message);
+     requestAnimationFrame(() => {
   window.scrollTo({
     top: document.documentElement.scrollHeight,
     behavior: "smooth"
   });
 });
-
-      const message = document.createElement("div");
-      message.className = "message " + type;
-      message.textContent = text;
-      chat.appendChild(message);
       return message;
     }
 
