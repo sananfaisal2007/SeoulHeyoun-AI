@@ -1621,6 +1621,14 @@ body {
     const suggestions = document.getElementById("suggestions");
 
     function addMessage(text, type) {
+      
+requestAnimationFrame(() => {
+  window.scrollTo({
+    top: document.documentElement.scrollHeight,
+    behavior: "smooth"
+  });
+});
+
       const message = document.createElement("div");
       message.className = "message " + type;
       message.textContent = text;
@@ -1663,6 +1671,14 @@ async function sendMessage(text) {
 
     const data = await response.json();
     addMessage(data.message.content, "assistant");
+    
+requestAnimationFrame(() => {
+  window.scrollTo({
+    top: document.documentElement.scrollHeight,
+    behavior: "smooth"
+  });
+});
+
 
   } catch (error) {
     console.error("Ollama connection error:", error);
